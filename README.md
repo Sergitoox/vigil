@@ -47,9 +47,11 @@ detections inside it, computes a risk assessment, and exposes the result
 as an MCP server any agent can query.
 
 ```bash
-git clone https://github.com/Sergitoox/vigil + cd vigil + uv sync
+git clone https://github.com/Sergitoox/vigil
+cd vigil
+uv sync
 export VIGIL_FIRMS_KEY=your_free_nasa_key
-vigil serve --aoi "-10,35,5,44"
+uv run vigil serve --aoi "-10,35,5,44"
 ```
 
 Then ask your agent:
@@ -94,7 +96,9 @@ multi-domain vision.
 ## Quickstart
 
 ```bash
-pip install vigil-mcp
+git clone https://github.com/Sergitoox/vigil
+cd vigil
+uv sync
 ```
 
 Get a free NASA FIRMS API key (takes under a minute):
@@ -102,7 +106,7 @@ Get a free NASA FIRMS API key (takes under a minute):
 
 ```bash
 export VIGIL_FIRMS_KEY=your_key
-
+uv run
 vigil serve --aoi "-10,35,5,44"
 # bbox format: west,south,east,north
 # or a WKT polygon: "POLYGON((-10 35, 5 35, 5 44, -10 44, -10 35))"
@@ -195,8 +199,6 @@ cd vigil
 uv sync --extra dev
 uv run pytest
 ```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
