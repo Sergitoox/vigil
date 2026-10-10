@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vigil-mcp"
+version = "0.1.0"
+description = "Multi-domain situational awareness MCP server — maritime, conflict, weather, fire"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+keywords = ["mcp", "geospatial", "intelligence", "maritime", "situational-awareness"]
+dependencies = [
+    "mcp[cli]>=1.0.0",     # MCP server SDK — protocolo para agentes de IA
+    "pydantic>=2.0.0",     # Modelos de datos tipados y validación
+    "httpx>=0.27.0",       # Cliente HTTP async para las APIs externas
+    "duckdb>=1.0.0",       # Base de datos in-process con soporte geoespacial nativo
+    "shapely>=2.0.0",      # Operaciones geométricas: AOI, intersecciones, distancias
+    "click>=8.0.0",        # CLI: `vigil serve`, `vigil status`
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",  # Tests de código async (los ingestores son async)
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",             # Linter + formatter (reemplaza flake8 + black + isort)
+    "mypy>=1.10.0",            # Chequeo de tipos estático
+    "respx>=0.21.0",           # Mock de httpx para tests sin llamadas reales a APIs
+]
+
+[project.scripts]
+vigil = "vigil.cli:main"      # Hace que `vigil serve` funcione desde terminal
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vigil"]
+
+[tool.ruff]
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "ASYNC"]  # + ASYNC para detectar problemas en código async
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"          # pytest-asyncio: todos los tests async corren sin decorador extra
